@@ -54,7 +54,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-6">
       {/* KPI row */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
         <StatCard label="Total Agreements" value={total} icon="📋" accent />
         <StatCard label="Approved" value={approved} icon="✅" trend={{ value: 12, label: 'vs last month' }} />
         <StatCard label="Pending / Review" value={pending} icon="⏳" />
@@ -65,11 +65,11 @@ export default function Dashboard() {
       {/* Expiring soon alert */}
       {expiringSoon > 0 && (
         <div className="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-amber-600 text-lg">⚠️</span>
+          <div className="flex items-center gap-3 flex-1">
+            <span className="text-amber-600 text-lg shrink-0">⚠️</span>
             <div>
               <p className="text-sm font-semibold text-amber-800">{expiringSoon} agreement{expiringSoon > 1 ? 's' : ''} expiring within 30 days</p>
-              <p className="text-xs text-amber-600">Review and notify applicants before expiry</p>
+              <p className="text-xs text-amber-600 hidden sm:block">Review and notify applicants before expiry</p>
             </div>
           </div>
           <Button variant="outline" size="sm" onClick={() => navigate('/agreements?filter=expiring')}>

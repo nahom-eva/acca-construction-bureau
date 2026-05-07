@@ -42,14 +42,14 @@ export default function Reports() {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <StatCard label="City-Level Agreements" value={byTier.city.length} icon="🏛️" accent />
         <StatCard label="Sub-City Agreements" value={byTier.subcity.length} icon="🏢" />
         <StatCard label="Wereda Agreements" value={byTier.wereda.length} icon="🏠" />
         <StatCard label="Total Fees Collected" value={formatCurrency(totalFees)} icon="💰" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card>
           <h3 className="text-sm font-semibold text-gray-900 mb-5">Service Fees by Sub-City & Tier (ETB '000)</h3>
           <ResponsiveContainer width="100%" height={240}>

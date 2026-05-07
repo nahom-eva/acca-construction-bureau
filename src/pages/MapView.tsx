@@ -47,7 +47,7 @@ export default function MapView() {
   return (
     <div className="space-y-4">
       {/* Filters */}
-      <div className="flex flex-wrap gap-3 items-center">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-2 items-start sm:items-center">
         <div className="flex gap-1 bg-white border border-gray-200 rounded-lg p-1">
           {TIER_FILTERS.map(t => (
             <button
@@ -88,7 +88,7 @@ export default function MapView() {
       </div>
 
       {/* Map */}
-      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden" style={{ height: '60vh', minHeight: 440 }}>
+      <div className="bg-white rounded-xl border border-gray-200 overflow-hidden" style={{ height: '65vh', minHeight: 360 }}>
         <MapContainer center={center} zoom={13} style={{ height: '100%', width: '100%' }}>
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -78,7 +78,7 @@ export default function RoleSelect() {
         <p className="text-gray-500 text-sm max-w-2xl mx-auto text-center mb-6">
           Two separate divisions, one integrated system. Select any role to explore the prototype.
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto">
+        <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto px-4 sm:px-0">
           <div className="flex-1 border-2 border-red-200 rounded-xl p-4 bg-red-50 flex items-center gap-3">
             <span className="text-3xl">📋</span>
             <div>
@@ -97,7 +97,7 @@ export default function RoleSelect() {
       </div>
 
       {/* Role groups */}
-      <div className="flex-1 px-8 py-8 max-w-5xl mx-auto w-full space-y-8">
+      <div className="flex-1 px-4 sm:px-8 py-6 sm:py-8 max-w-5xl mx-auto w-full space-y-6 sm:space-y-8">
         {groups.map(group => {
           const users = demoUsers.filter(u => group.roles.includes(u.role));
           if (users.length === 0) return null;

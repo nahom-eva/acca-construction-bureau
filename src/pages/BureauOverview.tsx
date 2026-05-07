@@ -21,7 +21,7 @@ export default function BureauOverview() {
       </div>
 
       {/* Division cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Building Official */}
         <div className="bg-white rounded-xl border-2 border-red-200 p-6">
           <div className="flex items-center gap-3 mb-5">
@@ -31,7 +31,7 @@ export default function BureauOverview() {
               <p className="text-xs text-gray-500">Permits, agreements & plan approvals</p>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-3 mb-5">
+          <div className="grid grid-cols-2 gap-2 mb-4">
             <StatCard label="Total Agreements" value={visibleAgreements.length} accent />
             <StatCard label="Approved" value={visibleAgreements.filter(a => a.status === 'approved').length} />
             <StatCard label="Pending Review" value={visibleAgreements.filter(a => a.status === 'pending' || a.status === 'under_review').length} />

@@ -78,7 +78,7 @@ export default function AgreementDetail() {
         </Card>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Applicant info */}
         <Card>
           <h3 className="text-sm font-semibold text-gray-900 mb-4 border-b border-gray-100 pb-3">Applicant Information</h3>
@@ -134,7 +134,7 @@ export default function AgreementDetail() {
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Map */}
         <Card padding="none" className="overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">

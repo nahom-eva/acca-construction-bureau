@@ -4,47 +4,64 @@ import { cn } from '../../lib/utils';
 
 const ROLE_LABELS: Record<string, string> = {
   bureau_head:                '🏛️ Bureau Head',
-  city_building_official:     '🏢 City · Building Official',
-  city_project_head:          '🏗️ City · Project Division',
-  subcity_building_official:  '🏢 Sub-City · Building Official',
-  subcity_project_supervisor: '🔍 Sub-City · Project Supervisor',
-  wereda_officer:             '🏠 Wereda · Building Official',
+  city_building_official:     '🏢 City · BO',
+  city_project_head:          '🏗️ City · Project',
+  subcity_building_official:  '🏢 Sub-City · BO',
+  subcity_project_supervisor: '🔍 Sub-City · Proj.',
+  wereda_officer:             '🏠 Wereda · BO',
   customer:                   '👤 Customer',
 };
 
-export function TopBar({ title }: { title?: string }) {
+interface TopBarProps {
+  title?: string;
+  onMenuClick: () => void;
+}
+
+export function TopBar({ title, onMenuClick }: TopBarProps) {
   const { currentUser, setCurrentUser, demoUsers } = useApp();
   const navigate = useNavigate();
 
   return (
-    <header className="h-14 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0">
-      <div>
-        {title && <h1 className="text-base font-semibold text-gray-900">{title}</h1>}
+    <header className="h-14 bg-white border-b border-gray-200 flex items-center gap-3 px-4 shrink-0">
+      {/* Hamburger — mobile only */}
+      <button
+        onClick={onMenuClick}
+        className="md:hidden p-2 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors shrink-0"
+        aria-label="Open menu"
+      >
+        <span className="block w-5 h-0.5 bg-current mb-1" />
+        <span className="block w-5 h-0.5 bg-current mb-1" />
+        <span className="block w-5 h-0.5 bg-current" />
+      </button>
+
+      {/* Page title */}
+      <div className="flex-1 min-w-0">
+        {title && (
+          <h1 className="text-sm font-semibold text-gray-900 truncate">{title}</h1>
+        )}
       </div>
 
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-gray-400 hidden sm:block">Demo — viewing as:</span>
-          <div className="relative">
-            <select
-              value={currentUser.id}
-              onChange={e => {
-                const user = demoUsers.find(u => u.id === e.target.value);
-                if (!user) return;
-                setCurrentUser(user);
-                // Route to sensible default for the new role
-                if (user.role === 'customer') navigate('/agreements');
-                else if (['city_project_head', 'subcity_project_supervisor'].includes(user.role)) navigate('/projects');
-                else navigate('/dashboard');
-              }}
-              className="text-xs border border-gray-200 rounded-lg px-3 py-1.5 bg-white text-gray-700 font-medium appearance-none pr-7 cursor-pointer hover:border-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
-            >
-              {demoUsers.map(u => (
-                <option key={u.id} value={u.id}>{ROLE_LABELS[u.role]} — {u.name}</option>
-              ))}
-            </select>
-            <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs">▾</span>
-          </div>
+      {/* Role switcher + avatar */}
+      <div className="flex items-center gap-2 shrink-0">
+        <div className="relative">
+          <select
+            value={currentUser.id}
+            onChange={e => {
+              const user = demoUsers.find(u => u.id === e.target.value);
+              if (!user) return;
+              setCurrentUser(user);
+              if (user.role === 'customer') navigate('/agreements');
+              else if (['city_project_head', 'subcity_project_supervisor'].includes(user.role)) navigate('/projects');
+              else if (user.role === 'bureau_head') navigate('/bureau');
+              else navigate('/dashboard');
+            }}
+            className="text-xs border border-gray-200 rounded-lg pl-2 pr-6 py-1.5 bg-white text-gray-700 font-medium appearance-none cursor-pointer hover:border-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 max-w-[140px] sm:max-w-none"
+          >
+            {demoUsers.map(u => (
+              <option key={u.id} value={u.id}>{ROLE_LABELS[u.role]} — {u.name}</option>
+            ))}
+          </select>
+          <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none text-xs">▾</span>
         </div>
 
         <div className={cn(
