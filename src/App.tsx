@@ -9,6 +9,7 @@ import AgreementDetail from './pages/AgreementDetail';
 import NewAgreement from './pages/NewAgreement';
 import MapView from './pages/MapView';
 import Projects from './pages/Projects';
+import ProfessionalCompetency from './pages/ProfessionalCompetency';
 import Reports from './pages/Reports';
 
 export default function App() {
@@ -25,6 +26,7 @@ export default function App() {
             <Route path="/agreements/:id"  element={<AgreementDetail />} />
             <Route path="/map"             element={<MapView />} />
             <Route path="/projects"        element={<Projects />} />
+            <Route path="/professionals"   element={<ProfessionalCompetency />} />
             <Route path="/reports"         element={<Reports />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />

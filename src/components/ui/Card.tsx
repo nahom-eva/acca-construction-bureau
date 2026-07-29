@@ -21,17 +21,24 @@ interface StatCardProps {
   sub?: string;
   icon?: React.ReactNode;
   accent?: boolean;
+  /** Tighter type and padding, for stat grids nested inside another card. */
+  dense?: boolean;
   trend?: { value: number; label: string };
 }
 
-export function StatCard({ label, value, sub, icon, accent, trend }: StatCardProps) {
+export function StatCard({ label, value, sub, icon, accent, dense, trend }: StatCardProps) {
   return (
     <div className={cn(
-      'rounded-xl border p-5 flex flex-col gap-3',
+      'rounded-xl border flex flex-col',
+      dense ? 'p-3 gap-2' : 'p-5 gap-3',
       accent ? 'bg-primary text-white border-primary-dark' : 'bg-white border-gray-200 shadow-sm',
     )}>
       <div className="flex items-start justify-between">
-        <span className={cn('text-sm font-medium', accent ? 'text-red-100' : 'text-gray-500')}>
+        <span className={cn(
+          'font-medium',
+          dense ? 'text-xs' : 'text-sm',
+          accent ? 'text-red-100' : 'text-gray-500',
+        )}>
           {label}
         </span>
         {icon && (
@@ -41,7 +48,11 @@ export function StatCard({ label, value, sub, icon, accent, trend }: StatCardPro
         )}
       </div>
       <div>
-        <p className={cn('text-2xl font-bold leading-none', accent ? 'text-white' : 'text-gray-900')}>
+        <p className={cn(
+          'font-bold leading-none',
+          dense ? 'text-lg' : 'text-2xl',
+          accent ? 'text-white' : 'text-gray-900',
+        )}>
           {value}
         </p>
         {sub && <p className={cn('text-xs mt-1', accent ? 'text-red-200' : 'text-gray-400')}>{sub}</p>}

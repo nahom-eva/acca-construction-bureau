@@ -37,6 +37,10 @@ export function StatusBadge({ status }: { status: string }) {
     construction: { variant: 'info',    label: 'Construction' },
     completed:    { variant: 'success', label: 'Completed' },
     on_hold:      { variant: 'muted',   label: 'On Hold' },
+    // Professional competency certificates
+    active:          { variant: 'success', label: 'Active' },
+    pending_renewal: { variant: 'warning', label: 'Pending Renewal' },
+    suspended:       { variant: 'danger',  label: 'Suspended' },
   };
   const { variant, label } = map[status] ?? { variant: 'default', label: status };
   return <Badge variant={variant}>{label}</Badge>;

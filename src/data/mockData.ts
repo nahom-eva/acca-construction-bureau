@@ -1,5 +1,5 @@
 import type {
-  SubCity, Wereda, DemoUser, Agreement, Project, SupervisionReport,
+  SubCity, Wereda, DemoUser, Agreement, Project, SupervisionReport, Professional,
 } from '../types';
 
 export const SUB_CITIES: SubCity[] = [
@@ -53,6 +53,14 @@ export const DEMO_USERS: DemoUser[] = [
     title: 'Head, Project Division — City',
     initials: 'GH',
   },
+  {
+    id: 'u_city_prof',
+    name: 'Dr. Ing. Fikadu Negash',
+    role: 'city_professional_competency_head',
+    division: 'professional_competency',
+    title: 'Head, Professional Competency Division — City',
+    initials: 'FN',
+  },
   // ── Sub-City level ───────────────────────────────────────────
   {
     id: 'u_sc_bo_boku',
@@ -71,6 +79,15 @@ export const DEMO_USERS: DemoUser[] = [
     title: 'Project Supervisor — Boku Sub-City',
     subCityId: 'sc_boku',
     initials: 'RT',
+  },
+  {
+    id: 'u_sc_prof_boku',
+    name: 'W/ro Selamawit Girma',
+    role: 'subcity_professional_competency_officer',
+    division: 'professional_competency',
+    title: 'Professional Competency Officer — Boku Sub-City',
+    subCityId: 'sc_boku',
+    initials: 'SG',
   },
   {
     id: 'u_sc_bo_dem',
@@ -394,6 +411,121 @@ export const PROJECTS: Project[] = [
   },
 ];
 
+export const PROFESSIONALS: Professional[] = [
+  {
+    id: 'prof_001', registrationNumber: 'ACCA-PC-2023-0041',
+    fullName: 'Ato Henok Assefa', category: 'architect',
+    firmName: 'Assefa Design Studio', grade: 'grade_1',
+    subCityId: 'sc_boku', status: 'active',
+    issuedDate: '2023-04-12', expiryDate: '2026-04-12',
+    phone: '+251 911 445 220', email: 'henok.a@assefadesign.et',
+    specialization: 'High-rise & mixed-use architectural design',
+    yearsExperience: 14,
+    reviewedBy: 'Dr. Ing. Fikadu Negash',
+  },
+  {
+    id: 'prof_002', registrationNumber: 'ACCA-PC-2022-0118',
+    fullName: 'W/ro Meaza Tadesse', category: 'engineer',
+    firmName: 'Rift Valley Structural Engineering', grade: 'grade_1',
+    subCityId: 'sc_dembela', status: 'active',
+    issuedDate: '2022-09-01', expiryDate: '2025-09-01',
+    phone: '+251 922 118 907', email: 'meaza.t@riftvalleyeng.et',
+    specialization: 'Structural analysis, seismic design review',
+    yearsExperience: 18,
+    reviewedBy: 'Dr. Ing. Fikadu Negash',
+    notes: 'Certified for structural sign-off on buildings up to 20 floors.',
+  },
+  {
+    id: 'prof_003', registrationNumber: 'ACCA-PC-2023-0207',
+    fullName: 'Ato Kirubel Mengistu', category: 'contractor',
+    firmName: 'Ethio Construction PLC', grade: 'grade_2',
+    subCityId: 'sc_boku', status: 'pending_renewal',
+    issuedDate: '2023-01-20', expiryDate: '2026-01-20',
+    phone: '+251 933 662 041', email: 'kirubel.m@ethioconstruction.et',
+    specialization: 'Road works, drainage & civil infrastructure',
+    yearsExperience: 11,
+    notes: 'Renewal application submitted. Awaiting updated equipment inventory and tax clearance.',
+  },
+  {
+    id: 'prof_004', registrationNumber: 'ACCA-PC-2021-0063',
+    fullName: 'Ato Nahom Girmay', category: 'engineer',
+    firmName: 'Rift Valley Structural Engineering', grade: 'grade_2',
+    subCityId: 'sc_alagae', status: 'active',
+    issuedDate: '2021-11-15', expiryDate: '2027-11-15',
+    phone: '+251 944 730 512', email: 'nahom.g@riftvalleyeng.et',
+    specialization: 'Geotechnical investigation & foundation engineering',
+    yearsExperience: 9,
+    reviewedBy: 'Dr. Ing. Fikadu Negash',
+  },
+  {
+    id: 'prof_005', registrationNumber: 'ACCA-PC-2022-0295',
+    fullName: 'W/rt Bethlehem Alemayehu', category: 'consultant',
+    firmName: 'Hawas Project Advisory', grade: 'grade_2',
+    subCityId: 'sc_hawas', status: 'active',
+    issuedDate: '2022-06-30', expiryDate: '2025-12-30',
+    phone: '+251 955 209 384', email: 'bethlehem.a@hawasadvisory.et',
+    specialization: 'Construction supervision & contract administration',
+    yearsExperience: 12,
+    reviewedBy: 'Dr. Ing. Fikadu Negash',
+  },
+  {
+    id: 'prof_006', registrationNumber: 'ACCA-PC-2024-0312',
+    fullName: 'Ato Yohannes Tesfaye', category: 'contractor',
+    firmName: 'Kebede Construction', grade: 'grade_3',
+    subCityId: 'sc_dembela', status: 'suspended',
+    issuedDate: '2024-02-08', expiryDate: '2027-02-08',
+    phone: '+251 966 841 173', email: 'yohannes.t@kebedeconstruction.et',
+    specialization: 'Small-scale residential & renovation works',
+    yearsExperience: 6,
+    reviewedBy: 'Dr. Ing. Fikadu Negash',
+    notes: 'Suspended for 6 months following unauthorised structural modification at Dembela 02 site.',
+  },
+  {
+    id: 'prof_007', registrationNumber: 'ACCA-PC-2020-0027',
+    fullName: 'Ato Solomon Bekele', category: 'architect',
+    firmName: 'Adama Design & Build', grade: 'grade_2',
+    subCityId: 'sc_dirre', status: 'expired',
+    issuedDate: '2020-05-18', expiryDate: '2024-05-18',
+    phone: '+251 977 314 660', email: 'solomon.b@adamadesignbuild.et',
+    specialization: 'Institutional & public building design',
+    yearsExperience: 21,
+    notes: 'Certificate lapsed. Professional must re-apply with current CPD record.',
+  },
+  {
+    id: 'prof_008', registrationNumber: 'ACCA-PC-2023-0188',
+    fullName: 'W/ro Ruth Desalegn', category: 'consultant',
+    firmName: 'Boku Engineering Consult', grade: 'grade_1',
+    subCityId: 'sc_boku', status: 'active',
+    issuedDate: '2023-08-22', expiryDate: '2026-08-22',
+    phone: '+251 988 552 719', email: 'ruth.d@bokuconsult.et',
+    specialization: 'Quantity surveying & cost consultancy',
+    yearsExperience: 15,
+    reviewedBy: 'Dr. Ing. Fikadu Negash',
+  },
+  {
+    id: 'prof_009', registrationNumber: 'ACCA-PC-2024-0356',
+    fullName: 'Ato Tewodros Alemu', category: 'engineer',
+    firmName: 'Ageremariam Electromechanical', grade: 'grade_3',
+    subCityId: 'sc_ageremariam', status: 'pending_renewal',
+    issuedDate: '2024-03-11', expiryDate: '2026-03-11',
+    phone: '+251 900 477 238', email: 'tewodros.a@agemelectro.et',
+    specialization: 'Electrical & mechanical building services',
+    yearsExperience: 7,
+    notes: 'Flagged by Boku sub-city officer — CPD hours below annual threshold.',
+  },
+  {
+    id: 'prof_010', registrationNumber: 'ACCA-PC-2021-0142',
+    fullName: 'W/rt Genet Haile', category: 'architect',
+    firmName: 'Genet Haile Architects', grade: 'grade_2',
+    subCityId: 'sc_boku', status: 'active',
+    issuedDate: '2021-07-05', expiryDate: '2027-07-05',
+    phone: '+251 911 903 465', email: 'genet.h@genethailearch.et',
+    specialization: 'Residential & small commercial design',
+    yearsExperience: 10,
+    reviewedBy: 'Dr. Ing. Fikadu Negash',
+  },
+];
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 export function getSubCity(id: string) { return SUB_CITIES.find(s => s.id === id); }
@@ -417,4 +549,25 @@ export function calculateServiceFee(floors: number): number {
   if (floors <= 5) return floors * 1800;
   if (floors <= 10) return floors * 3200;
   return floors * 3800;
+}
+
+const CATEGORY_LABELS: Record<string, { label: string; icon: string }> = {
+  architect:  { label: 'Architect',  icon: '📐' },
+  engineer:   { label: 'Engineer',   icon: '⚙️' },
+  contractor: { label: 'Contractor', icon: '🚧' },
+  consultant: { label: 'Consultant', icon: '📊' },
+};
+
+export function getCategoryLabel(category: string) {
+  return CATEGORY_LABELS[category]?.label ?? category;
+}
+
+export function getCategoryIcon(category: string) {
+  return CATEGORY_LABELS[category]?.icon ?? '👷';
+}
+
+export function getGradeLabel(grade: string) {
+  if (grade === 'grade_1') return 'Grade I';
+  if (grade === 'grade_2') return 'Grade II';
+  return 'Grade III';
 }

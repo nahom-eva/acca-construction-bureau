@@ -1,6 +1,8 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
-import type { DemoUser, Agreement, Project, SupervisionReport } from '../types';
-import { DEMO_USERS, AGREEMENTS, PROJECTS } from '../data/mockData';
+import type {
+  DemoUser, Agreement, Project, SupervisionReport, Professional, CompetencyStatus,
+} from '../types';
+import { DEMO_USERS, AGREEMENTS, PROJECTS, PROFESSIONALS } from '../data/mockData';
 
 interface AppContextValue {
   currentUser: DemoUser;
@@ -14,17 +16,27 @@ interface AppContextValue {
   projects: Project[];
   addReport: (projectId: string, report: SupervisionReport) => void;
   visibleProjects: Project[];
+  // Professional Competency Division
+  professionals: Professional[];
+  setProfessionalStatus: (id: string, status: CompetencyStatus, note?: string) => void;
+  renewProfessional: (id: string, note?: string) => void;
+  visibleProfessionals: Professional[];
   canAccessBO: boolean;    // Building Official division access
   canAccessProj: boolean;  // Project division access
+  canAccessProf: boolean;  // Professional Competency division access
   isBureauHead: boolean;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
 
+/** Length of one professional competency certificate term. */
+const CERTIFICATE_TERM_YEARS = 3;
+
 export function AppProvider({ children }: { children: ReactNode }) {
   const [currentUser, setCurrentUser] = useState<DemoUser>(DEMO_USERS[0]);
   const [agreements, setAgreements] = useState<Agreement[]>(AGREEMENTS);
   const [projects, setProjects] = useState<Project[]>(PROJECTS);
+  const [professionals, setProfessionals] = useState<Professional[]>(PROFESSIONALS);
 
   const addAgreement = (a: Agreement) => setAgreements(prev => [a, ...prev]);
 
@@ -32,6 +44,30 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setProjects(prev => prev.map(p =>
       p.id === projectId ? { ...p, reports: [report, ...p.reports] } : p,
     ));
+  };
+
+  const setProfessionalStatus = (id: string, status: CompetencyStatus, note?: string) => {
+    setProfessionals(prev => prev.map(p =>
+      p.id === id
+        ? { ...p, status, reviewedBy: currentUser.name, notes: note ?? p.notes }
+        : p,
+    ));
+  };
+
+  // Renewal restores active standing and pushes the certificate out one 3-year term
+  const renewProfessional = (id: string, note?: string) => {
+    setProfessionals(prev => prev.map(p => {
+      if (p.id !== id) return p;
+      const renewed = new Date(p.expiryDate);
+      renewed.setFullYear(renewed.getFullYear() + CERTIFICATE_TERM_YEARS);
+      return {
+        ...p,
+        status: 'active' as CompetencyStatus,
+        expiryDate: renewed.toISOString().split('T')[0],
+        reviewedBy: currentUser.name,
+        notes: note ?? p.notes,
+      };
+    }));
   };
 
   // Which divisions this role can access
@@ -47,6 +83,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const canAccessProj = isBureauHead || [
     'city_project_head',
     'subcity_project_supervisor',
+  ].includes(currentUser.role);
+
+  const canAccessProf = isBureauHead || [
+    'city_professional_competency_head',
+    'subcity_professional_competency_officer',
   ].includes(currentUser.role);
 
   // Filter agreements by role
@@ -67,12 +108,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
     return false;
   });
 
+  // Filter registered professionals by role
+  const visibleProfessionals = professionals.filter(p => {
+    if (!canAccessProf) return false;
+    if (isBureauHead || currentUser.role === 'city_professional_competency_head') return true;
+    if (currentUser.role === 'subcity_professional_competency_officer') return p.subCityId === currentUser.subCityId;
+    return false;
+  });
+
   return (
     <AppContext.Provider value={{
       currentUser, setCurrentUser, demoUsers: DEMO_USERS,
       agreements, addAgreement, visibleAgreements,
       projects, addReport, visibleProjects,
-      canAccessBO, canAccessProj, isBureauHead,
+      professionals, setProfessionalStatus, renewProfessional, visibleProfessionals,
+      canAccessBO, canAccessProj, canAccessProf, isBureauHead,
     }}>
       {children}
     </AppContext.Provider>

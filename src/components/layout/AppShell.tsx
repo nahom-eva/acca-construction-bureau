@@ -10,6 +10,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/agreements/new': 'New Application',
   '/map':            'Map View',
   '/projects':       'Project Division',
+  '/professionals':  'Professional Competency Division',
   '/reports':        'Reports & Analytics',
 };
 

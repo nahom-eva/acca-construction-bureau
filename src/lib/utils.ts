@@ -10,6 +10,17 @@ export function formatCurrency(amount: number): string {
   }).format(amount);
 }
 
+/** Abbreviated currency (ETB 123.5M) for narrow summary tiles. */
+export function formatCompactCurrency(amount: number): string {
+  return new Intl.NumberFormat('en-ET', {
+    style: 'currency',
+    currency: 'ETB',
+    notation: 'compact',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 1,
+  }).format(amount);
+}
+
 export function formatDate(dateStr: string | undefined): string {
   if (!dateStr) return '—';
   return new Date(dateStr).toLocaleDateString('en-GB', {
@@ -36,6 +47,15 @@ export function daysUntilExpiry(dateStr: string | undefined): number | null {
   if (!dateStr) return null;
   const diff = (new Date(dateStr).getTime() - Date.now()) / (1000 * 60 * 60 * 24);
   return Math.ceil(diff);
+}
+
+/** Landing page a role drops into after signing in or switching. */
+export function landingPathForRole(role: string): string {
+  if (role === 'bureau_head') return '/bureau';
+  if (role === 'customer') return '/agreements';
+  if (['city_project_head', 'subcity_project_supervisor'].includes(role)) return '/projects';
+  if (['city_professional_competency_head', 'subcity_professional_competency_officer'].includes(role)) return '/professionals';
+  return '/dashboard';
 }
 
 export function fileIcon(type: string): string {

@@ -1,19 +1,24 @@
 export type Role =
-  | 'bureau_head'             // City: boss of both divisions
+  | 'bureau_head'             // City: boss of all divisions
   | 'city_building_official'  // City: Building Official Division head
   | 'city_project_head'       // City: Project Division head
+  | 'city_professional_competency_head' // City: Professional Competency Division head
   | 'subcity_building_official' // Sub-City: Building Official officer
   | 'subcity_project_supervisor' // Sub-City: Project Division supervisor
+  | 'subcity_professional_competency_officer' // Sub-City: Professional Competency officer
   | 'wereda_officer'          // Wereda: Building Official (0-2 floors)
   | 'customer';
 
-export type Division = 'building_official' | 'project';
+export type Division = 'building_official' | 'project' | 'professional_competency';
 export type Tier = 'city' | 'subcity' | 'wereda';
 export type AgreementStatus = 'pending' | 'under_review' | 'approved' | 'rejected' | 'expired';
 export type DocumentCategory = 'design' | 'permit' | 'contract' | 'inspection' | 'report';
 export type ProjectStatus = 'planning' | 'design' | 'construction' | 'completed' | 'on_hold';
 export type FileType = 'cad' | 'revit' | 'pdf' | 'image';
 export type ReportType = 'monthly' | 'quarterly';
+export type ProfessionalCategory = 'architect' | 'engineer' | 'contractor' | 'consultant';
+export type CompetencyGrade = 'grade_1' | 'grade_2' | 'grade_3';
+export type CompetencyStatus = 'active' | 'pending_renewal' | 'suspended' | 'expired';
 
 export interface SubCity {
   id: string;
@@ -123,4 +128,23 @@ export interface Project {
   description: string;
   supervisionPlan?: SupervisionPlan;
   reports: SupervisionReport[];
+}
+
+export interface Professional {
+  id: string;
+  registrationNumber: string;
+  fullName: string;
+  category: ProfessionalCategory;
+  firmName: string;
+  grade: CompetencyGrade;
+  subCityId: string; // sub-city that oversees this professional's field conduct
+  status: CompetencyStatus;
+  issuedDate: string;
+  expiryDate: string;
+  phone: string;
+  email: string;
+  specialization: string;
+  yearsExperience: number;
+  reviewedBy?: string;
+  notes?: string;
 }

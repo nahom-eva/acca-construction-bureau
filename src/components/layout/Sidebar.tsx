@@ -47,8 +47,14 @@ function NavGroup({ title, items, collapsed }: { title: string; items: NavItem[]
   );
 }
 
+const DIVISION_BADGES: Record<string, { label: string; className: string }> = {
+  building_official:       { label: 'Building Official',      className: 'bg-red-100 text-red-700' },
+  project:                 { label: 'Project Division',       className: 'bg-blue-100 text-blue-700' },
+  professional_competency: { label: 'Prof. Competency',       className: 'bg-purple-100 text-purple-700' },
+};
+
 export function Sidebar({ collapsed, onCollapse, onClose }: SidebarProps) {
-  const { currentUser, canAccessBO, canAccessProj, isBureauHead } = useApp();
+  const { currentUser, canAccessBO, canAccessProj, canAccessProf, isBureauHead } = useApp();
 
   const boNav: NavItem[] = canAccessBO ? [
     { path: '/dashboard',      label: 'Dashboard',       icon: '▦' },
@@ -62,6 +68,10 @@ export function Sidebar({ collapsed, onCollapse, onClose }: SidebarProps) {
 
   const projNav: NavItem[] = canAccessProj ? [
     { path: '/projects', label: 'Projects', icon: '🏗️' },
+  ] : [];
+
+  const profNav: NavItem[] = canAccessProf ? [
+    { path: '/professionals', label: 'Professionals', icon: '🎓' },
   ] : [];
 
   const adminNav: NavItem[] = isBureauHead ? [
@@ -131,20 +141,29 @@ export function Sidebar({ collapsed, onCollapse, onClose }: SidebarProps) {
             />
           </>
         )}
+
+        {canAccessProf && (
+          <>
+            {(canAccessBO || canAccessProj) && !collapsed && <div className="border-t border-gray-100 my-2 mx-1" />}
+            <NavGroup
+              title="Professional Competency Division"
+              items={profNav}
+              collapsed={collapsed}
+            />
+          </>
+        )}
       </nav>
 
       {/* User info + collapse toggle */}
       <div className="border-t border-gray-100 shrink-0">
         {!collapsed && (
           <div className="px-4 py-3">
-            {currentUser.division && (
+            {currentUser.division && DIVISION_BADGES[currentUser.division] && (
               <span className={cn(
                 'text-[10px] font-semibold px-1.5 py-0.5 rounded mb-1 inline-block',
-                currentUser.division === 'building_official'
-                  ? 'bg-red-100 text-red-700'
-                  : 'bg-blue-100 text-blue-700',
+                DIVISION_BADGES[currentUser.division].className,
               )}>
-                {currentUser.division === 'building_official' ? 'Building Official' : 'Project Division'}
+                {DIVISION_BADGES[currentUser.division].label}
               </span>
             )}
             {currentUser.role === 'bureau_head' && (

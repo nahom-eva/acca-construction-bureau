@@ -1,11 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../store/AppContext';
+import { landingPathForRole } from '../lib/utils';
 import type { DemoUser } from '../types';
+
+const DIVISION_BADGE_STYLES: Record<string, string> = {
+  'Building Official Division':       'bg-red-100 text-red-700',
+  'Project Division':                 'bg-blue-100 text-blue-700',
+  'Professional Competency Division': 'bg-purple-100 text-purple-700',
+};
 
 const ROLE_CONFIG: Record<string, { color: string; light: string; icon: string; desc: string; division?: string }> = {
   bureau_head: {
     color: 'bg-gray-900', light: 'bg-gray-50 border-gray-300',
-    icon: '🏛️', desc: 'Overall head of both divisions. Sees the full picture: all agreements, all projects, all reports from both Building Official and Project Division.',
+    icon: '🏛️', desc: 'Overall head of all three divisions. Sees the full picture: all agreements, all projects, all registered professionals and every report across the bureau.',
   },
   city_building_official: {
     color: 'bg-red-600', light: 'bg-red-50 border-red-200',
@@ -17,6 +24,11 @@ const ROLE_CONFIG: Record<string, { color: string; light: string; icon: string; 
     icon: '🏗️', desc: 'Heads the Project Division at city level. Creates and owns government construction projects. Receives monthly and quarterly supervision reports from sub-city supervisors.',
     division: 'Project Division',
   },
+  city_professional_competency_head: {
+    color: 'bg-purple-700', light: 'bg-purple-50 border-purple-200',
+    icon: '🎓', desc: 'Heads the Professional Competency Division at city level. Certifies architects, engineers, contractors and consultants, grades their competency, and renews or suspends certificates.',
+    division: 'Professional Competency Division',
+  },
   subcity_building_official: {
     color: 'bg-red-400', light: 'bg-orange-50 border-orange-200',
     icon: '🏢', desc: 'Handles building permit applications for 3–5 floor buildings within their sub-city. Reports upward to the City Building Official Division.',
@@ -26,6 +38,11 @@ const ROLE_CONFIG: Record<string, { color: string; light: string; icon: string; 
     color: 'bg-blue-500', light: 'bg-sky-50 border-sky-200',
     icon: '🔍', desc: 'Supervises government construction projects in their sub-city. Follows the supervision plan and submits monthly and quarterly reports to the City Project Division.',
     division: 'Project Division',
+  },
+  subcity_professional_competency_officer: {
+    color: 'bg-purple-500', light: 'bg-violet-50 border-violet-200',
+    icon: '🎓', desc: 'Verifies the conduct of professionals practising in their sub-city. Reviews certificates on site and flags competency concerns to the City Professional Competency Division.',
+    division: 'Professional Competency Division',
   },
   wereda_officer: {
     color: 'bg-red-300', light: 'bg-amber-50 border-amber-200',
@@ -44,15 +61,12 @@ export default function RoleSelect() {
 
   function select(user: DemoUser) {
     setCurrentUser(user);
-    if (user.role === 'bureau_head') navigate('/bureau');
-    else if (user.role === 'customer') navigate('/agreements');
-    else if (['city_project_head', 'subcity_project_supervisor'].includes(user.role)) navigate('/projects');
-    else navigate('/dashboard');
+    navigate(landingPathForRole(user.role));
   }
 
   const groups = [
-    { label: 'City Level', roles: ['bureau_head', 'city_building_official', 'city_project_head'] },
-    { label: 'Sub-City Level', roles: ['subcity_building_official', 'subcity_project_supervisor'] },
+    { label: 'City Level', roles: ['bureau_head', 'city_building_official', 'city_project_head', 'city_professional_competency_head'] },
+    { label: 'Sub-City Level', roles: ['subcity_building_official', 'subcity_project_supervisor', 'subcity_professional_competency_officer'] },
     { label: 'Wereda Level', roles: ['wereda_officer'] },
     { label: 'Customer / Applicant', roles: ['customer'] },
   ];
@@ -72,25 +86,32 @@ export default function RoleSelect() {
         </div>
       </header>
 
-      {/* Two divisions banner */}
+      {/* Divisions banner */}
       <div className="bg-white border-b border-gray-200 px-8 py-6">
         <h2 className="text-xl font-bold text-gray-900 mb-2 text-center">Welcome to ACCA Bureau System</h2>
         <p className="text-gray-500 text-sm max-w-2xl mx-auto text-center mb-6">
-          Two separate divisions, one integrated system. Select any role to explore the prototype.
+          Three separate divisions, one integrated system. Select any role to explore the prototype.
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 max-w-2xl mx-auto px-4 sm:px-0">
-          <div className="flex-1 border-2 border-red-200 rounded-xl p-4 bg-red-50 flex items-center gap-3">
-            <span className="text-3xl">📋</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-5xl mx-auto px-4 sm:px-0">
+          <div className="border-2 border-red-200 rounded-xl p-4 bg-red-50 flex items-center gap-3">
+            <span className="text-3xl shrink-0">📋</span>
             <div>
               <p className="font-bold text-red-900 text-sm">Building Official Division</p>
               <p className="text-xs text-red-700">Customer permits, plan agreements, floor-based routing. Available at City, Sub-City & Wereda level.</p>
             </div>
           </div>
-          <div className="flex-1 border-2 border-blue-200 rounded-xl p-4 bg-blue-50 flex items-center gap-3">
-            <span className="text-3xl">🏗️</span>
+          <div className="border-2 border-blue-200 rounded-xl p-4 bg-blue-50 flex items-center gap-3">
+            <span className="text-3xl shrink-0">🏗️</span>
             <div>
               <p className="font-bold text-blue-900 text-sm">Project Division</p>
               <p className="text-xs text-blue-700">Government construction projects. City creates & manages; Sub-City supervises & reports. City & Sub-City level only.</p>
+            </div>
+          </div>
+          <div className="border-2 border-purple-200 rounded-xl p-4 bg-purple-50 flex items-center gap-3">
+            <span className="text-3xl shrink-0">🎓</span>
+            <div>
+              <p className="font-bold text-purple-900 text-sm">Professional Competency Division</p>
+              <p className="text-xs text-purple-700">Certification of architects, engineers, contractors & consultants. City certifies & grades; Sub-City verifies conduct on site.</p>
             </div>
           </div>
         </div>
@@ -120,11 +141,7 @@ export default function RoleSelect() {
                         <div className="min-w-0">
                           <p className="font-semibold text-gray-900 text-sm truncate">{user.name}</p>
                           {cfg.division && (
-                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                              cfg.division === 'Building Official Division'
-                                ? 'bg-red-100 text-red-700'
-                                : 'bg-blue-100 text-blue-700'
-                            }`}>
+                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${DIVISION_BADGE_STYLES[cfg.division] ?? 'bg-gray-100 text-gray-700'}`}>
                               {cfg.division}
                             </span>
                           )}

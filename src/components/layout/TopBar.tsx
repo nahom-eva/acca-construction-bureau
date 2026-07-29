@@ -1,15 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../../store/AppContext';
-import { cn } from '../../lib/utils';
+import { cn, landingPathForRole } from '../../lib/utils';
 
 const ROLE_LABELS: Record<string, string> = {
-  bureau_head:                '🏛️ Bureau Head',
-  city_building_official:     '🏢 City · BO',
-  city_project_head:          '🏗️ City · Project',
-  subcity_building_official:  '🏢 Sub-City · BO',
-  subcity_project_supervisor: '🔍 Sub-City · Proj.',
-  wereda_officer:             '🏠 Wereda · BO',
-  customer:                   '👤 Customer',
+  bureau_head:                              '🏛️ Bureau Head',
+  city_building_official:                   '🏢 City · BO',
+  city_project_head:                        '🏗️ City · Project',
+  city_professional_competency_head:        '🎓 City · Prof. Comp.',
+  subcity_building_official:                '🏢 Sub-City · BO',
+  subcity_project_supervisor:               '🔍 Sub-City · Proj.',
+  subcity_professional_competency_officer:  '🎓 Sub-City · Prof. Comp.',
+  wereda_officer:                           '🏠 Wereda · BO',
+  customer:                                 '👤 Customer',
 };
 
 interface TopBarProps {
@@ -50,10 +52,7 @@ export function TopBar({ title, onMenuClick }: TopBarProps) {
               const user = demoUsers.find(u => u.id === e.target.value);
               if (!user) return;
               setCurrentUser(user);
-              if (user.role === 'customer') navigate('/agreements');
-              else if (['city_project_head', 'subcity_project_supervisor'].includes(user.role)) navigate('/projects');
-              else if (user.role === 'bureau_head') navigate('/bureau');
-              else navigate('/dashboard');
+              navigate(landingPathForRole(user.role));
             }}
             className="text-xs border border-gray-200 rounded-lg pl-2 pr-6 py-1.5 bg-white text-gray-700 font-medium appearance-none cursor-pointer hover:border-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 max-w-[140px] sm:max-w-none"
           >
@@ -67,7 +66,8 @@ export function TopBar({ title, onMenuClick }: TopBarProps) {
         <div className={cn(
           'w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0',
           currentUser.role === 'bureau_head' ? 'bg-gray-900' :
-          currentUser.division === 'project' ? 'bg-blue-600' : 'bg-primary',
+          currentUser.division === 'project' ? 'bg-blue-600' :
+          currentUser.division === 'professional_competency' ? 'bg-purple-600' : 'bg-primary',
         )}>
           {currentUser.initials}
         </div>
