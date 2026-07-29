@@ -26,7 +26,7 @@ Everything in this system revolves around three administrative levels, each with
 
 ```
 City (Adama)
-  └── Sub-City (×6: Boku, Dembela, Alagae, Dirre, Ageremariam, Hawas)
+  └── Sub-City (×6: Boku, Dembela, Dabe, Lugo, Bole, Aba-geda)
         └── Wereda (×2–3 per Sub-City, 14 total)
 ```
 
@@ -230,7 +230,7 @@ The Project Division's document and project management area. Separate from the B
 | Adama Inner Ring Road Expansion | City | Under Construction | 85M ETB |
 | Boku Community Center | Sub-City | Design Phase | 12M ETB |
 | Dembela 01 School Renovation | Wereda | Completed | 4.5M ETB |
-| Alagae Market Infrastructure | Sub-City | Planning | 22M ETB |
+| Dabe Market Infrastructure | Sub-City | Planning | 22M ETB |
 
 **How to demo it:**
 1. Enter as City Admin — see all 4 projects
